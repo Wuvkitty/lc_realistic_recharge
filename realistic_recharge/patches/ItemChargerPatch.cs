@@ -53,7 +53,7 @@ namespace MetalRecharging.Patches
                 {
                     __instance.StopCoroutine(___chargeItemCoroutine);
                 }
-                if (!GameNetworkManager.Instance.localPlayerController.playersManager.inShipPhase)
+                if (GameNetworkManager.Instance.localPlayerController.AllowPlayerDeath())
                 {
                     ___chargeItemCoroutine = __instance.StartCoroutine(ItemChargerDelayed(__instance, heldObject));
                 }
@@ -65,8 +65,7 @@ namespace MetalRecharging.Patches
             __instance.zapAudio.Play();
             yield return new WaitForSeconds(0.75f);
             __instance.chargeStationAnimator.SetTrigger("zap");
-            // 0 - fall damage death, 1 - head exploded, 2 - coiled, 3 - seems like blunt force trauma 
-            GameNetworkManager.Instance.localPlayerController.KillPlayer(UnityEngine.Vector3.zero, true, CauseOfDeath.Electrocution, 1);
+            GameNetworkManager.Instance.localPlayerController.KillPlayer(UnityEngine.Vector3.zero, true, CauseOfDeath.Electrocution);
         }
     }
 }
